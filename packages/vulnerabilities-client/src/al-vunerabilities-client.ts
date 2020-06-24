@@ -7,7 +7,7 @@ import {
     AlDefaultClient,
 } from '@al/core';
 
-import { Remediation } from './types';
+import { Remediation, Vulnerability } from './types';
 
 export class AlVulnerabilitiesClientInstance {
 
@@ -19,6 +19,13 @@ export class AlVulnerabilitiesClientInstance {
         return this.client.get<Remediation>({
             service_name: 'remediation',
             path: `/${remediationId}`,
+        });
+    }
+
+    async getVulnerability(vulnerabilityId: string) {
+        return this.client.get<Vulnerability>({
+            service_name: 'vulnerability',
+            path: `/${vulnerabilityId}`,
         });
     }
 }
