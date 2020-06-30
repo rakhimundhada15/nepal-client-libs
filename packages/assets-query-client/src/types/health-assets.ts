@@ -5,6 +5,7 @@ export interface HealthAssetVPC {
     health_level?: number;
     key?: string;
     name?: string;
+    state?: string;
     network_uuid?: string;
     tags?: {
         [key: string]: string;
@@ -246,18 +247,27 @@ export interface HealthAssetCategory {
 
 export interface HealthListItem {
     agent?: string;
-    appliance?:  string;
-    asset_count?:  number;
+    appliance?: string;
+    asset_count?: number;
     collector?: string;
     deployment?: string;
+    exposures?: HealthListItemExposure[];
+    exposures_by_remediation?: {
+        [remediationKey: string]: string[];
+    };
+    exposures_count?: number;
     health_level?: number;
     host?: string;
-    protection_policy_id?:  string;
+    protection_policy_id?: string;
+    region?: string;
     remediations?: string[];
     remediations_filters?: string[];
-    exposures_by_remediation?: {[remediationKey: string]: string[]};
     unhealthiness?: number;
     vpc?: string;
+}
+export interface HealthListItemExposure {
+    asset_count?: number;
+    exposure?: string;
 }
 
 export interface HealthResponseFilters {
@@ -283,4 +293,44 @@ export interface HealthAssetExposure {
     threatiness: number;
     type: string;
     vulnerability_id: string;
+}
+export interface HealthAssetRegion {
+    account_id?: string;
+    created_on?: number;
+    modified_on?: number;
+    key?:string;
+    deployment_id?:string;
+    name?: string;
+    region_name?:string;
+    type?: string;
+    threat_level?: number;
+    threatiness?: number;
+}
+
+export interface HealthAssetSubnet {
+    account_id?: string;
+    created_on?: number;
+    modified_on?: number;
+    key?:string;
+    deployment_id?:string;
+    name?: string;
+    subnet_id?:string;
+    subnet_name?:string;
+    subnet_uuid?:string;
+    cidr_block?:string;
+    type?: string;
+    threat_level?: number;
+    threatiness?: number;
+    state?:string;
+}
+
+export interface HealthAssetImage{
+    account_id?: string;
+    created_on?: number;
+    deployment_id?: string;
+    key?:string;
+    modified_on?: number;
+    threat_level?: number;
+    threatiness?: number;
+    type?: string;
 }

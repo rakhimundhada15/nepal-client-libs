@@ -3,28 +3,31 @@
  */
 import { ALClient } from '@al/core';
 
-interface TuningOption {
+export interface TuningOption {
   id: string;
   name: string;
   scope?: {
     deployment_id?: string;
+    region_key?: string;
     vpc_key?: string;
   };
-  value: string;
+  value: string|number|{[key:string]: unknown};
 }
 
-interface OptionRequestParams {
+export interface OptionRequestParams {
   name: string;
   scope?: {
     deployment_id?: string;
+    region_key?: string;
     vpc_key?: string;
   };
-  value: string;
+  value: string|number|{[key:string]: unknown};
 }
 
-interface ResolveOptionsRequestParams {
+export interface ResolveOptionsRequestParams {
   scope: {
     deployment_id?: string;
+    region_key?: string;
     vpc_key?: string;
   };
   names: string[];
@@ -34,6 +37,7 @@ class OTISClient {
 
   private client = ALClient;
   private serviceName = 'otis';
+  private version = 'v3';
   /**
    * Create Option
    */
@@ -42,7 +46,7 @@ class OTISClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: '/options',
-      version: 'v3',
+      version: this.version,
       data: optionRequest,
     });
   }
@@ -54,7 +58,20 @@ class OTISClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: `/options/${optionId}`,
-      version: 'v3',
+      version: this.version,
+    });
+
+  }
+  /**
+   * List Options
+   */
+  async listOptions(accountId: string, params?: {[key:string]: string|string[]}) {
+    return this.client.get<TuningOption[]>({
+      service_name: this.serviceName,
+      account_id: accountId,
+      path: `/options/`,
+      version: this.version,
+      params: params
     });
 
   }
@@ -66,7 +83,7 @@ class OTISClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: `/options/${optionId}`,
-      version: 'v3',
+      version: this.version,
     });
   }
   /**
@@ -77,7 +94,7 @@ class OTISClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: `/options/${optionId}`,
-      version: 'v3',
+      version: this.version,
       data: {
         value,
       },
@@ -91,7 +108,7 @@ class OTISClient {
       service_name: this.serviceName,
       account_id: accountId,
       path: '/options/resolve',
-      version: 'v3',
+      version: this.version,
       data: resolveOptionsRequestParams,
     });
   }
