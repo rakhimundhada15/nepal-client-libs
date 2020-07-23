@@ -154,6 +154,7 @@ export interface HealthAssetAppliance {
     type?: string;
     created_on?: number;
     modified_on?: number;
+    host_uuid?: string;
 }
 
 export interface HealthAssetCollector {
